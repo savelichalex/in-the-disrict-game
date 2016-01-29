@@ -2,9 +2,9 @@
   "name": "in-the-district-game",
   "version": "0.0.0",
   "description": "Gangsta game",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "mocha tests"
+    "start": "babel-node src/index.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,8 @@
   "dependencies": {
     "@cycle/core": "^6.0.0",
     "@cycle/dom": "^9.0.2",
+    "koa-static-cache": "^3.1.4",
+    "koa.io": "0.0.3",
     "rx": "^4.0.7"
   },
   "devDependencies": {
