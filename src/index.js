@@ -23,9 +23,10 @@ app.listen(port, function() {
 });
 
 const games = new Map();
-const firstKey = '0001';
+const testKey = '0001';
+games.set(testKey, true);
 
-app.io.user(function* (next) {
+app.io.use(function* (next) {
 	console.log('someone connected');
 
 	yield next;
@@ -40,19 +41,23 @@ app.io.user(function* (next) {
 
 //Routes
 
-app.io.router('create game', function* (next) {
+app.io.route('create game', function* (next) {
 	function createKey() {
-		const key = Math.floor(Math.random() * 1000);
+		const key = Math.floor(Math.random() * 10000);
 		if(games.has(key)) {
 			return createKey;
 		} else {
-			return key;
+			if((key + '').length < 4) {
+				return createKey();
+			} else {
+				return key;
+			}
 		}
 	}
 	const key = createKey();
 	games.set(key, this);
 
-	this.emit.('game created', key);
+	this.emit('game created', key);
 });
 
 app.io.route('join game', function* (next, {key, username}) {
@@ -61,7 +66,10 @@ app.io.route('join game', function* (next, {key, username}) {
 		this.key = key;
 		this.username = username;
 
-		games.get(key).emit('user joined'. username);
+		//games.get(key).emit('user joined', username);
+		this.emit('joined');
+	} else {
+		this.emit('uncorrect game');
 	}
 });
 
@@ -81,4 +89,4 @@ app.io.route('action', function* (next, {action}) {
 			action
 		});
 	}
-})
+});

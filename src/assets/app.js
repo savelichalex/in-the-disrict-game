@@ -23,7 +23,7 @@ const isMobile = {
 };
 
 if(isMobile.any()) {
-	modile();
+	mobile();
 } else {
-	desktop();
+    desktop();
 }
