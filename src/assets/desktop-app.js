@@ -1,0 +1,1 @@
+export const desktop = () => document.body.innerHTML = "i'm in desktop";
