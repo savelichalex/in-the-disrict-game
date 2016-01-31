@@ -85,6 +85,7 @@ function main({Form, Socket, GamepadWrapper}) {
 
     const touchmove$ = GamepadWrapper.select('#round').events('touchmove')
         .map(e => {
+	        e.preventDefault();
             return {
                 round: e.target,
                 point: e.changedTouches[0]
