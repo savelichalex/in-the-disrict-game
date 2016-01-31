@@ -179,9 +179,17 @@ body.fixed {
 
 .map-wrapper .player {
     position: absolute;
+    width: 28px;
+    height: 28px;
+    background-image: url('/src/static/img/player.png');
+    background-size: cover;
+}
+
+.map-wrapper .bot {
+    position: absolute;
     width: 16px;
     height: 16px;
-    background-image: url('/src/static/img/player.png');
+    background-image: url('/src/static/img/bot2.png');
     background-size: cover;
 }
 
