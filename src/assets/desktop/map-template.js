@@ -7,7 +7,7 @@ export function getInitialMapTemplate(key) {
 			h1('.game-key', 'District id: ' + [key])
 		])
 
-	])
+	]);
 }
 
 export function getMapTemplate(key, Users, Bots) {
@@ -20,8 +20,8 @@ export function getMapTemplate(key, Users, Bots) {
 		})
 	});
 
-	const botsCoords = Bots.map(bot => bot.coords).map(([x, y]) => {
-		return div('.player', {
+	const botsCoords = Bots.map(bot => bot.coords).map(([x, y], index) => {
+		return div(index % 2 === 0 ? '.bot1' : '.bot2', {
 			style: {
 				top: y / 135 * 100 + '%',
 				left: x / 240 * 100 + '%'
@@ -30,9 +30,11 @@ export function getMapTemplate(key, Users, Bots) {
 	});
 
 	return div([
-		h1('.game-key', [key]),
 		div('.map-wrapper', [
-			img({src: '/src/static/img/map.png'})
+			img({src: '/src/static/img/map.png'}),
+			div('#map-console', [
+				h1('.game-key', 'District id: ' + [key])
+			])
 		].concat(usersCoords).concat(botsCoords))
 	])
 }

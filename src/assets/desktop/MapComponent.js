@@ -51,6 +51,10 @@ class User {
 			this.change();
 		}
 	}
+
+	doIt(action) {
+		console.log(action)
+	}
 }
 
 class Bot extends User {
@@ -106,7 +110,7 @@ export function MapComponent(Socket) {
 		);
 
 	const action$ = Socket.get('action')
-		.map(({action, username}) => Users[ username ].do(action));
+		.subscribe(({action, username}) => Users[ username ].doIt(action));
 
 	const newPlayer$ = Socket.get('user joined')
 		.subscribe(username => {

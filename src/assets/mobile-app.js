@@ -48,64 +48,62 @@ function main({Form, Socket, GamepadWrapper}) {
         .map(getGamepadTemplate);
 
     const action1$ = GamepadWrapper.select('#action1').events('click')
-        .map(e => {
-            return {
-                messageType: 'action',
-                message: 1
-            };
-        });
+        .map(() => 1);
 
     const action2$ = GamepadWrapper.select('#action2').events('click')
-        .map(e => {
-            return {
-                messageType: 'action',
-                message: 2
-            };
-        });
+        .map(() => 2);
 
     const action3$ = GamepadWrapper.select('#action3').events('click')
-        .map(e => {
-            return {
-                messageType: 'action',
-                message: 3
-            };
-        });
+        .map(() => 3);
 
 
     const action4$ = GamepadWrapper.select('#action4').events('click')
-        .map(e => {
-            return {
-                messageType: 'action',
-                message: 4
-            };
-        });
+        .map(() => 4);
 
 
     const action5$ = GamepadWrapper.select('#action5').events('click')
-        .map(e => {
-            return {
-                messageType: 'action',
-                message: 5
-            };
-        });
+        .map(() => 5);
 
 
     const action6$ = GamepadWrapper.select('#action6').events('click')
-        .map(e => {
+        .map(() => 6);
+
+    const action$ = action1$
+        .merge(action2$)
+        .merge(action3$)
+        .merge(action4$)
+        .merge(action5$)
+        .merge(action6$)
+        .map(action => {
             return {
                 messageType: 'action',
-                message: 6
+                message: {
+                    action
+                }
             };
         });
 
-
-    const move$ = GamepadWrapper.select('#round').events('touchmove')
+    const touchmove$ = GamepadWrapper.select('#round').events('touchmove')
         .map(e => {
             return {
                 round: e.target,
                 point: e.changedTouches[0]
             }
-        })
+        });
+
+	const touchend$ = GamepadWrapper.select('#round').events('touchend')
+		.map(e => {
+			return 'end';
+		});
+
+	const move$ = touchmove$.merge(touchend$);
+
+    const interval$ = Rx.Observable.interval(100)
+        .withLatestFrom(
+	        move$,
+	        (_, t) => t
+        )
+	    .filter(val => val !== 'end')
         .map(({round, point}) => {
             var roundOffsetX = round.getBoundingClientRect().left;
             var roundOffsetY = round.getBoundingClientRect().top;
@@ -141,7 +139,7 @@ function main({Form, Socket, GamepadWrapper}) {
 
     return {
         Form: formTree$,
-        Socket: state$.merge(move$),
+        Socket: state$.merge(interval$).merge(action$),
         JoinErrorWrapper: joinError$,
         GamepadWrapper: joinSuccess$
     }
@@ -155,7 +153,3 @@ export const mobile = () => {
         GamepadWrapper: makeDOMDriver(document.body)
     });
 };
-
-
-
-//export const mobile = () => document.body.innerHTML = "i'm in mobile";
