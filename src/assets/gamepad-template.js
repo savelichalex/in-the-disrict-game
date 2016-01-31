@@ -1,4 +1,4 @@
-import { div, table, tbody, tr, td, a } from '@cycle/dom';
+import { div, table, tbody, tr, td, a, img } from '@cycle/dom';
 
 export function getGamepadTemplate() {
     return div('#gamepad.mobile',[
@@ -20,11 +20,14 @@ export function getGamepadTemplate() {
                                         "role": "button",
                                         "className": "btn btn-lg btn-default"
                                     },
-                                    "id": {
-                                        "name": "id",
-                                        "value": "action1"
-                                    }
-                                })
+                                    "id": "action1"
+                                }, [
+                                    img({
+                                        "attributes": {
+                                            "src": "/src/static/img/buttons/sig.jpg"
+                                        }
+                                    })
+                                ])
                             ]),
                             td([
                                 a("#action2.btn.btn-lg.btn-default", {
@@ -33,11 +36,14 @@ export function getGamepadTemplate() {
                                         "role": "button",
                                         "className": "btn btn-lg btn-default"
                                     },
-                                    "id": {
-                                        "name": "id",
-                                        "value": "action2"
-                                    }
-                                })
+                                    "id": "action2"
+                                }, [
+                                    img({
+                                        "attributes": {
+                                            "src": "/src/static/img/buttons/money.jpg"
+                                        }
+                                    })
+                                ])
                             ]),
                             td([
                                 a("#action3.btn.btn-lg.btn-default", {
@@ -46,52 +52,64 @@ export function getGamepadTemplate() {
                                         "role": "button",
                                         "className": "btn btn-lg btn-default"
                                     },
-                                    "id": {
-                                        "name": "id",
-                                        "value": "action3"
-                                    }
-                                })
+                                    "id": "action3"
+                                }, [
+                                    img({
+                                        "attributes": {
+                                            "src": "/src/static/img/buttons/mob.jpg"
+                                        }
+                                    })
+                                ])
                             ])
                         ]),
                         tr([
                             td([
-                                a("#ritual1.btn.btn-lg.btn-default.disabled", {
+                                a("#action4.btn.btn-lg.btn-default", {
                                     "attributes": {
                                         "href": "#",
                                         "role": "button",
-                                        "className": "btn btn-lg btn-default disabled"
+                                        "className": "btn btn-lg btn-default"
                                     },
-                                    "id": {
-                                        "name": "id",
-                                        "value": "ritual1"
-                                    }
-                                })
+                                    "id": "action4"
+                                }, [
+                                    img({
+                                        "attributes": {
+                                            "src": "/src/static/img/buttons/kort.jpg"
+                                        }
+                                    })
+                                ])
                             ]),
                             td([
-                                a("#ritual2.btn.btn-lg.btn-default.disabled", {
+                                a("#action5.btn.btn-lg.btn-default", {
                                     "attributes": {
                                         "href": "#",
                                         "role": "button",
-                                        "className": "btn btn-lg btn-default disabled"
+                                        "className": "btn btn-lg btn-default"
                                     },
-                                    "id": {
-                                        "name": "id",
-                                        "value": "ritual2"
-                                    }
-                                })
+                                    "id": "action5"
+                                }, [
+                                    img({
+                                        "attributes": {
+                                            "src": "/src/static/img/buttons/semki.jpg"
+                                        }
+                                    })
+                                ])
                             ]),
                             td([
-                                a("#ritual3.btn.btn-lg.btn-default.disabled", {
+                                a("#action6.btn.btn-lg.btn-default", {
                                     "attributes": {
                                         "href": "#",
                                         "role": "button",
-                                        "className": "btn btn-lg btn-default disabled"
+                                        "className": "btn btn-lg btn-default"
                                     },
-                                    "id": {
-                                        "name": "id",
-                                        "value": "ritual3"
-                                    }
-                                })
+                                    "id": "action6"
+                                }, [
+                                    img({
+                                        "attributes": {
+                                            "src": "/src/static/img/buttons/balt.jpg"
+                                        }
+                                    })
+                                ])
                             ])
                         ])
                     ])

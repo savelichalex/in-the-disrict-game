@@ -30,8 +30,6 @@
   "dependencies": {
     "@cycle/core": "^6.0.0",
     "@cycle/dom": "^9.0.2",
-    "cycle-socket.io": "^1.0.0",
-    "cyclejs": "^0.26.0",
     "koa-static-cache": "^3.1.4",
     "koa-static-folder": "^0.1.6",
     "koa.io": "0.0.3",

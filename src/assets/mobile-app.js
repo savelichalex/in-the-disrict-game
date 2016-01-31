@@ -1,7 +1,7 @@
 import Cycle from '@cycle/core';
 import Rx from 'rx';
 import {div, label, input, h1, a, makeDOMDriver} from '@cycle/dom';
-import { createSocketIODriver } from 'cycle-socket.io';
+import { createSocketIODriver } from './cycle-socket.io';
 import { getGamepadTemplate } from './gamepad-template';
 import { getFormTeplate } from './mobile-form-template';
 
@@ -46,6 +46,58 @@ function main({Form, Socket, GamepadWrapper}) {
 
     const joinSuccess$ = Socket.get('joined')
         .map(getGamepadTemplate);
+
+    const action1$ = GamepadWrapper.select('#action1').events('click')
+        .map(e => {
+            return {
+                messageType: 'action',
+                message: 1
+            };
+        });
+
+    const action2$ = GamepadWrapper.select('#action2').events('click')
+        .map(e => {
+            return {
+                messageType: 'action',
+                message: 2
+            };
+        });
+
+    const action3$ = GamepadWrapper.select('#action3').events('click')
+        .map(e => {
+            return {
+                messageType: 'action',
+                message: 3
+            };
+        });
+
+
+    const action4$ = GamepadWrapper.select('#action4').events('click')
+        .map(e => {
+            return {
+                messageType: 'action',
+                message: 4
+            };
+        });
+
+
+    const action5$ = GamepadWrapper.select('#action5').events('click')
+        .map(e => {
+            return {
+                messageType: 'action',
+                message: 5
+            };
+        });
+
+
+    const action6$ = GamepadWrapper.select('#action6').events('click')
+        .map(e => {
+            return {
+                messageType: 'action',
+                message: 6
+            };
+        });
+
 
     const move$ = GamepadWrapper.select('#round').events('touchmove')
         .map(e => {
