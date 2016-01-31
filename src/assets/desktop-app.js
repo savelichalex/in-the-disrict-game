@@ -1,6 +1,6 @@
 import Cycle from '@cycle/core';
 import { makeDOMDriver } from '@cycle/dom';
-import { createSocketIODriver } from 'cycle-socket.io';
+import { createSocketIODriver } from './cycle-socket.io';
 import { MapComponent } from './desktop/MapComponent';
 import { FormComponent } from './desktop/FormComponent';
 import { JoinedComponent } from './desktop/JoinedComponent';

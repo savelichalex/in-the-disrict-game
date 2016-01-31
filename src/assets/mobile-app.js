@@ -1,7 +1,7 @@
 import Cycle from '@cycle/core';
 import Rx from 'rx';
 import {div, label, input, h1, a, makeDOMDriver} from '@cycle/dom';
-import { createSocketIODriver } from 'cycle-socket.io';
+import { createSocketIODriver } from './cycle-socket.io';
 import { getGamepadTemplate } from './gamepad-template';
 import { getFormTeplate } from './mobile-form-template';
 
