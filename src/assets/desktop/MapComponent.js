@@ -5,7 +5,7 @@ const GameMap = {
 	maxX: 240,
 	maxY: 135,
 	getRandomPoint() {
-		return [ 10, 10 ];
+		return [ Math.floor(Math.random() * this.maxX), Math.floor(Math.random() * this.maxY) ];
 	},
 	isPointExist([x, y]) {
 		if((x > 0 && x < this.maxX) && (y > 0 && y < this.maxY)) {
@@ -30,7 +30,6 @@ class User {
 	}
 
 	moveTo(direction) {
-		console.log(direction);
 		let point;
 		const [x, y] = this.coords;
 		switch(direction) {
@@ -46,14 +45,41 @@ class User {
 			case 'left':
 				point = [ x - 1, y ];
 				break;
-				if(GameMap.isPointExist(point)) {
-					this.coords = point;
-					this.change();
-				}
+		}
+		if(GameMap.isPointExist(point)) {
+			this.coords = point;
+			this.change();
 		}
 	}
 }
-;
+
+class Bot extends User {
+	constructor() {
+		super('bot');
+
+		this.money = 1000;
+		this.directions = [
+			'top',
+			'bottom',
+			'left',
+			'right'
+		];
+		this.currentDirection = this.directions[Math.floor(Math.random() * this.directions.length)];
+		this.currentDirectionCount = 0;
+		this.currentDirectionCountMax = Math.floor(Math.random() * 50 + 50);
+	}
+
+	move() {
+		if(this.currentDirectionCount === this.currentDirectionCountMax) {
+			this.currentDirection = this.directions[Math.floor(Math.random() * this.directions.length)];
+			this.currentDirectionCount = 0;
+			this.currentDirectionCountMax = Math.floor(Math.random() * 50 + 50);
+		} else {
+			this.currentDirectionCount = this.currentDirectionCount + 1;
+		}
+		this.moveTo(this.currentDirection);
+	}
+}
 
 const Game = {
 	observer: void 0,
@@ -67,27 +93,37 @@ const Game = {
 
 const Users = {};
 
+const Bots = [];
+const count = Math.floor(Math.random() * 30);
+for(let i = 0; i < count; i++) {
+	Bots.push(new Bot());
+}
+
 export function MapComponent(Socket) {
 	const move$ = Socket.get('move')
 		.subscribe(
-			({direction, username}) => Users[username].moveTo(direction)
+			({direction, username}) => Users[ username ].moveTo(direction)
 		);
 
 	const action$ = Socket.get('action')
-		.map(({action, username}) => Users[username].do(action));
+		.map(({action, username}) => Users[ username ].do(action));
 
 	const newPlayer$ = Socket.get('user joined')
 		.subscribe(username => {
-			Users[username] = new User(username);
-			Users[username].change();
+			Users[ username ] = new User(username);
+			Users[ username ].change();
 		});
 
-	const map$ = Game.move$.map(() => getMapTemplate(Game.key, Users));
+	const map$ = Game.move$.map(() => getMapTemplate(Game.key, Users, Bots));
 
 	const initialMap$ = Socket.get('game created')
 		.map(key => {
 			Game.key = key;
-			return getInitialMapTemplate(key)
+
+			Rx.Observable.interval(100)
+					.subscribe(() => Bots.forEach(bot => bot.move()));
+
+			return getInitialMapTemplate(key);
 		});
 
 	return map$.merge(initialMap$);

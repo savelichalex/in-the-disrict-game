@@ -10,12 +10,21 @@ export function getInitialMapTemplate(key) {
 	])
 }
 
-export function getMapTemplate(key, Users) {
+export function getMapTemplate(key, Users, Bots) {
 	const usersCoords = Object.keys(Users).map(key => Users[key]).map(user => user.coords).map(([x, y]) => {
 		return div('.player', {
 			style: {
-				top: x / 240 + 'px',
-				left: y / 135 + 'px'
+				top: y / 135 * 100 + '%',
+				left: x / 240 * 100 + '%'
+			}
+		})
+	});
+
+	const botsCoords = Bots.map(bot => bot.coords).map(([x, y]) => {
+		return div('.player', {
+			style: {
+				top: y / 135 * 100 + '%',
+				left: x / 240 * 100 + '%'
 			}
 		})
 	});
@@ -24,6 +33,6 @@ export function getMapTemplate(key, Users) {
 		h1('.game-key', [key]),
 		div('.map-wrapper', [
 			img({src: '/src/static/img/map.png'})
-		].concat(usersCoords))
+		].concat(usersCoords).concat(botsCoords))
 	])
 }
