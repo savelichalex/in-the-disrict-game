@@ -55,7 +55,7 @@ app.io.route('create game', function* (next) {
 		}
 	}
 	const key = createKey();
-	games.set(key, this);
+	games.set(key + '', this);
 
 	this.emit('game created', key);
 });
@@ -66,7 +66,7 @@ app.io.route('join game', function* (next, {key, username}) {
 		this.key = key;
 		this.username = username;
 
-		//games.get(key).emit('user joined', username);
+		games.get(key).emit('user joined', username);
 		this.emit('joined');
 	} else {
 		this.emit('uncorrect game');

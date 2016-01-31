@@ -97,7 +97,7 @@ function main({Form, Socket, GamepadWrapper}) {
 
 export const mobile = () => {
     Cycle.run(main, {
-        Form: makeDOMDriver('#form-wrapper'),
+        Form: makeDOMDriver('#main'),
         Socket: createSocketIODriver(window.location.origin),
         JoinErrorWrapper: makeDOMDriver('#error-wrapper'),
         GamepadWrapper: makeDOMDriver(document.body)

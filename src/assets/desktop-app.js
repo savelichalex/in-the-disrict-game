@@ -1,40 +1,28 @@
 import Cycle from '@cycle/core';
-import {div, label, input, h1, makeDOMDriver} from '@cycle/dom';
+import { makeDOMDriver } from '@cycle/dom';
 import { createSocketIODriver } from 'cycle-socket.io';
-import Rx from 'rx';
-import { getFormTeplate } from './desktop-form-template';
+import { MapComponent } from './desktop/MapComponent';
+import { FormComponent } from './desktop/FormComponent';
+import { JoinedComponent } from './desktop/JoinedComponent';
 
-function main({Form, Socket}) {
-    const startGame$ = Form.select('#add_district').events('click')
-        .map(() => {
-            return {
-                messageType: 'create game',
-                message: ''
-            };
-        });
-
-    const startForm$ = Rx.Observable.just(0)
-        .map(getFormTeplate);
-
-    const joinToGame$ = Socket.get('user joined')
-        .map((username) => h1(username + ' join the game'))
-
-    const gameCreated$ = Socket.get('game created')
-        .map(getMapTemplate)
+function main({Socket, Form}) {
+    const map$ = MapComponent(Socket);
+    const { startGame$, initial$ } = FormComponent(Form, Socket);
+    const joined$ = JoinedComponent(Socket);
 
     return {
         Socket: startGame$,
-        Form: startForm$,
-        JoinedBlock: joinToGame$,
-        MapWrapper: gameCreated$
+        Map: map$,
+        Form: initial$,
+        JoinedBlock: joined$
     }
 }
 
 export const desktop = () => {
     Cycle.run(main, {
-        Form: makeDOMDriver('#form-wrapper'),
+        Form: makeDOMDriver('#main'),
         Socket: createSocketIODriver(window.location.origin),
         JoinedBlock: makeDOMDriver('#joined-users'),
-        MapWrapper: makeDOMDriver('#map')
+        Map: makeDOMDriver('#main')
     })
 };
