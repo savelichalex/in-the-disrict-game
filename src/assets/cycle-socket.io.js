@@ -6,13 +6,14 @@ export function createSocketIODriver(url) {
 
 	function get(eventName) {
 		return Rx.Observable.create(observer => {
-			const sub = socket.on(eventName, function (message) {
+			function listener(message) {
 				observer.onNext(message);
-			});
+			}
+			const sub = socket.on(eventName, listener);
 			return function dispose() {
-				sub.dispose();
+				sub.removeListener(eventName);
 			};
-		});
+		}).share();
 	}
 
 	function publish(messageType, message) {

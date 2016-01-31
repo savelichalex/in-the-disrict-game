@@ -185,13 +185,22 @@ body.fixed {
     background-size: cover;
 }
 
-.map-wrapper .bot {
+.map-wrapper .bot1 {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-image: url('/src/static/img/bot1.png');
+    background-size: cover;
+}
+
+.map-wrapper .bot2 {
     position: absolute;
     width: 16px;
     height: 16px;
     background-image: url('/src/static/img/bot2.png');
     background-size: cover;
 }
+
 
 
 
